@@ -1,0 +1,46 @@
+<%-- 
+    Document   : sellerReg_DB
+    Created on : Sep 22, 2016, 1:27:36 PM
+    Author     : subi
+--%>
+
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+      <%
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            Connection con =DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","System","123");
+            String name=request.getParameter("name");
+            String email=request.getParameter("email");
+            String pass=request.getParameter("pass");
+            String compName=request.getParameter("compName");
+            String compID=request.getParameter("compID");
+            String compAdd=request.getParameter("compAdd");
+            String contact=request.getParameter("contact");
+            
+            
+            PreparedStatement ps=con.prepareStatement("insert into SELLER values(?,?,?,?,?,?,?)");
+            ps.setString(1, name);
+            ps.setString(2, email);
+            ps.setString(3, pass);
+            ps.setString(4, compName);
+            ps.setString(5, compID);
+            ps.setString(6, compAdd); 
+            ps.setString(7,contact);
+            int i=ps.executeUpdate();
+            out.print("i  "+i);
+            if(i>0){ 
+                out.print("sucessfully insert");
+              response.sendRedirect("loginPage.jsp");
+            }
+         %>
+    </body>
+</html>
